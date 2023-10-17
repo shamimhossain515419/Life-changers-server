@@ -10,7 +10,7 @@ app.use(express.json());
 
 
 
-const uri = "mongodb+srv://Life-changers:19G1qwFvld09pAk4@cluster0.soyhs2b.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.soyhs2b.mongodb.net/?retryWrites=true&w=majority`;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
      serverApi: {
@@ -82,12 +82,12 @@ async function run() {
           const result = await PostJobCollection.insertOne(body);
           res.send(result);
      })
-     app.delete('/delete-by-post-id', async (res, res) => {
+     app.delete('/delete-by-post-id', async (res, req) => {
           const id = { id: new ObjectId(res.query.id) }
           const result = await PostJobCollection.deleteOne(id);
           res.send(result)
      })
-     app.put('/delete-by-post-id', async (res, res) => {
+     app.put('/delete-by-post-id', async (res, req) => {
           const updatepost = req.body;
           const filter = { id: new ObjectId(res.query.id) }
           const job = await PostJobCollection.findOne(filter);
@@ -115,7 +115,7 @@ async function run() {
           res.send(result);
      });
 
-     app.delete('/apply-delete', async (res, res) => {
+     app.delete('/apply-delete', async (res, req) => {
           const id = { id: new ObjectId(res.query.id) }
           const result = await PostJobCollection.deleteOne(id);
           res.send(result)
