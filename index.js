@@ -87,7 +87,7 @@ async function run() {
           const result = await PostJobCollection.deleteOne(id);
           res.send(result)
      })
-     app.put('/delete-by-post-id', async (res, req) => {
+     app.put('/update-by-post-id', async (res, req) => {
           const updatepost = req.body;
           const filter = { id: new ObjectId(res.query.id) }
           const job = await PostJobCollection.findOne(filter);
@@ -150,7 +150,7 @@ async function run() {
           const body = req.body;
           const result = await FeedbackCollection.insertOne(body);
           res.send(result);
-     })
+     });
      app.get('/feedback', async (res, req) => {
           const result = await FeedbackCollection.find(body).toArray();
           res.send(result);
