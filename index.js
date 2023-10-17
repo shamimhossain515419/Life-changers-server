@@ -83,6 +83,13 @@ async function run() {
           const result = await PostJobCollection.insertOne(body);
           res.send(result);
      })
+
+     app.get('/post-jobs-by-id', async (res, req) => {
+          const id = req.query.id;
+          const result = await PostJobCollection.findOne(id);
+          res.send(result);
+     })
+
      app.delete('/delete-by-post-id', async (res, req) => {
           const id = { id: new ObjectId(res.query.id) }
           const result = await PostJobCollection.deleteOne(id);
@@ -138,7 +145,7 @@ async function run() {
                     name: updateApply.name ? updateApply.name : apply?.name,
                     description: updateApply.description ? updateApply.description : apply?.description,
                     resume: updateApply.resume ? updateApply.resume : apply?.resume,
-                   
+
                }
           };
           const result = await applyJobCollection.updateOne(filter, updateDoc);
