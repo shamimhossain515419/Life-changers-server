@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express();
-var jwt = require('jsonwebtoken');
+// var jwt = require('jsonwebtoken');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 app.use(cors())
@@ -9,23 +9,23 @@ app.use(cors())
 app.use(express.json());
 
 
-const verifyJWT = (req, res, next) => {
-     const authorization = req.headers.authorization;
-     if (!authorization) {
-          return res.status(401).send({ error: true, message: 'unauthorized access' });
-     }
-     // bearer token
-     const token = authorization.split(' ')[1];
+// const verifyJWT = (req, res, next) => {
+//      const authorization = req.headers.authorization;
+//      if (!authorization) {
+//           return res.status(401).send({ error: true, message: 'unauthorized access' });
+//      }
+//      // bearer token
+//      const token = authorization.split(' ')[1];
 
-     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-          if (err) {
-               return res.status(401).send({ error: true, message: 'unauthorized access' })
-          }
-          req.decoded = decoded;
-          next();
-     })
-}
-const { MongoClient, ServerApiVersion } = require('mongodb');
+//      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+//           if (err) {
+//                return res.status(401).send({ error: true, message: 'unauthorized access' })
+//           }
+//           req.decoded = decoded;
+//           next();
+//      })
+// }
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://Lifecahngers-1:gxxWmg5sz4niX6pd@cluster0.37cje8r.mongodb.net/?retryWrites=true&w=majority";
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -40,107 +40,107 @@ async function run() {
      // Connect the client to the server	(optional starting in v4.7)
     
 
-     const UserCollection = client.db("LifeChangers").collection("Users");
-     const PostJobCollection = client.db("LifeChangers").collection("PostJob");
-     const LoanCollection = client.db("LifeChangers").collection("Loan");
-     const FeedbackCollection = client.db("LifeChangers").collection("feedback");
-     const applyJobCollection = client.db("LifeChangers").collection("applyJob");
+     // const UserCollection = client.db("LifeChangers").collection("Users");
+     // const PostJobCollection = client.db("LifeChangers").collection("PostJob");
+     // const LoanCollection = client.db("LifeChangers").collection("Loan");
+     // const FeedbackCollection = client.db("LifeChangers").collection("feedback");
+     // const applyJobCollection = client.db("LifeChangers").collection("applyJob");
      const newsCollection = client.db("LifeChangers").collection("news");
 
 
 
 
 
-     app.post('/jwt', (req, res) => {
-          const user = req.body;
-          const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10d' })
+     // app.post('/jwt', (req, res) => {
+     //      const user = req.body;
+     //      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10d' })
 
-          res.send({ token })
-     })
+     //      res.send({ token })
+     // })
 
 
      // UserCollection  related api 
-     app.post('/users', async (res, req) => {
-          const body = req.body;
-          const result = await UserCollection.insertOne(body);
-          res.send(result);
-     })
+     // app.post('/users', async (res, req) => {
+     //      const body = req.body;
+     //      const result = await UserCollection.insertOne(body);
+     //      res.send(result);
+     // })
 
-     app.get('/users', async (req, res) => {
-          const email = { email: req.query.email };
-          const result = await UserCollection.findOne(email);
-          res.send(result)
+     // app.get('/users', async (req, res) => {
+     //      const email = { email: req.query.email };
+     //      const result = await UserCollection.findOne(email);
+     //      res.send(result)
 
-     })
-     app.get('/users', async (req, res) => {
-          const result = await UserCollection.find().toArray();
-          res.send(result)
+     // })
+     // app.get('/users', async (req, res) => {
+     //      const result = await UserCollection.find().toArray();
+     //      res.send(result)
 
-     })
+     // })
 
-     app.patch('/users-update', async (req, res) => {
-          const updateUser = req.body;
-          const filter = { id: new ObjectId(res.query.id) }
-          const users = await UserCollection.findOne(filter);
-          const updateDoc = {
-               $set: {
-                    email: updateUser.email ? updateUser.email : users?.email,
-                    name: updateUser.name ? updateUser.name : users?.name,
-                    address: updateUser.address ? updateUser.address : users?.address,
-                    country: updateUser.country ? updateUser.country : users?.country,
-                    phone: updateUser.phone ? updateUser.phone : users?.phone,
-                    post: updateUser.post ? updateUser.post : users?.post,
-                    loan: updateUser.loan ? updateUser.loan : users?.loan,
-                    money: updateUser.money ? updateUser.money : users?.money,
-                    NID: updateUser.NID ? updateUser.NID : users?.NID,
-                    loanStatus: updateUser.loanStatus ? updateUser.loanStatus : users?.loanStatus,
-                    paidLoan: updateUser.paidLoan ? updateUser.paidLoan : users?.paidLoan,
-                    account: updateUser.account ? updateUser.account : users?.account,
-                    interest: updateUser.interest ? updateUser.interest : users?.interest,
+     // app.patch('/users-update', async (req, res) => {
+     //      const updateUser = req.body;
+     //      const filter = { id: new ObjectId(res.query.id) }
+     //      const users = await UserCollection.findOne(filter);
+     //      const updateDoc = {
+     //           $set: {
+     //                email: updateUser.email ? updateUser.email : users?.email,
+     //                name: updateUser.name ? updateUser.name : users?.name,
+     //                address: updateUser.address ? updateUser.address : users?.address,
+     //                country: updateUser.country ? updateUser.country : users?.country,
+     //                phone: updateUser.phone ? updateUser.phone : users?.phone,
+     //                post: updateUser.post ? updateUser.post : users?.post,
+     //                loan: updateUser.loan ? updateUser.loan : users?.loan,
+     //                money: updateUser.money ? updateUser.money : users?.money,
+     //                NID: updateUser.NID ? updateUser.NID : users?.NID,
+     //                loanStatus: updateUser.loanStatus ? updateUser.loanStatus : users?.loanStatus,
+     //                paidLoan: updateUser.paidLoan ? updateUser.paidLoan : users?.paidLoan,
+     //                account: updateUser.account ? updateUser.account : users?.account,
+     //                interest: updateUser.interest ? updateUser.interest : users?.interest,
 
-               }
-          };
-          const result = await UserCollection.updateOne(filter, updateDoc);
-          res.send(result)
-     })
+     //           }
+     //      };
+     //      const result = await UserCollection.updateOne(filter, updateDoc);
+     //      res.send(result)
+     // })
 
-     // PostJobCollection related api 
-     app.post('/post-jobs', async (res, req) => {
-          const body = req.body;
-          const result = await PostJobCollection.insertOne(body);
-          res.send(result);
-     })
+     // // PostJobCollection related api 
+     // app.post('/post-jobs', async (res, req) => {
+     //      const body = req.body;
+     //      const result = await PostJobCollection.insertOne(body);
+     //      res.send(result);
+     // })
 
-     app.get('/post-jobs-by-id', async (res, req) => {
-          const id = req.query.id;
-          const result = await PostJobCollection.findOne(id);
-          res.send(result);
-     })
+     // app.get('/post-jobs-by-id', async (res, req) => {
+     //      const id = req.query.id;
+     //      const result = await PostJobCollection.findOne(id);
+     //      res.send(result);
+     // })
 
-     app.delete('/delete-by-post-id', async (res, req) => {
-          const id = { id: new ObjectId(res.query.id) }
-          const result = await PostJobCollection.deleteOne(id);
-          res.send(result)
-     })
-     app.put('/update-by-post-id', async (res, req) => {
-          const updatepost = req.body;
-          const filter = { id: new ObjectId(res.query.id) }
-          const job = await PostJobCollection.findOne(filter);
-          const updateDoc = {
-               $set: {
-                    name: updatepost.name ? updatepost.name : job?.name,
-                    description: updatepost.description ? updatepost.description : job?.description,
-                    image: updatepost.image ? updatepost.image : job?.image,
-                    level: updatepost.level ? updatepost.level : job?.level,
-                    salary: updatepost.salary ? updatepost.salary : job?.salary,
-                    skills: updatepost.skills ? updatepost.skills : job?.skills,
-                    location: updatepost.location ? updatepost.location : job?.location,
-                    experience: updatepost.experience ? updatepost.experience : job?.experience,
-               }
-          };
-          const result = await PostJobCollection.updateOne(filter, updateDoc);
-          res.send(result)
-     })
+     // app.delete('/delete-by-post-id', async (res, req) => {
+     //      const id = { id: new ObjectId(res.query.id) }
+     //      const result = await PostJobCollection.deleteOne(id);
+     //      res.send(result)
+     // })
+     // app.put('/update-by-post-id', async (res, req) => {
+     //      const updatepost = req.body;
+     //      const filter = { id: new ObjectId(res.query.id) }
+     //      const job = await PostJobCollection.findOne(filter);
+     //      const updateDoc = {
+     //           $set: {
+     //                name: updatepost.name ? updatepost.name : job?.name,
+     //                description: updatepost.description ? updatepost.description : job?.description,
+     //                image: updatepost.image ? updatepost.image : job?.image,
+     //                level: updatepost.level ? updatepost.level : job?.level,
+     //                salary: updatepost.salary ? updatepost.salary : job?.salary,
+     //                skills: updatepost.skills ? updatepost.skills : job?.skills,
+     //                location: updatepost.location ? updatepost.location : job?.location,
+     //                experience: updatepost.experience ? updatepost.experience : job?.experience,
+     //           }
+     //      };
+     //      const result = await PostJobCollection.updateOne(filter, updateDoc);
+     //      res.send(result)
+     // })
 
 
      // newsJobCollection telared api 
@@ -158,57 +158,60 @@ async function run() {
 
 
      // LoanCollection related api 
-     app.post('/apply', async (res, req) => {
-          const body = req.body;
-          const result = await LoanCollection.insertOne(body);
-          res.send(result);
-     });
+     // app.post('/apply', async (res, req) => {
+     //      const body = req.body;
+     //      const result = await LoanCollection.insertOne(body);
+     //      res.send(result);
+     // });
 
-     app.delete('/apply-delete', async (res, req) => {
-          const id = { id: new ObjectId(res.query.id) }
-          const result = await PostJobCollection.deleteOne(id);
-          res.send(result)
-     })
+     // app.delete('/apply-delete', async (res, req) => {
+     //      const id = { id: new ObjectId(res.query.id) }
+     //      const result = await PostJobCollection.deleteOne(id);
+     //      res.send(result)
+     // })
 
-     // applyJobCollection   related api  ;
+     // // applyJobCollection   related api  ;
 
-     app.post('apply-job', async (res, req) => {
-          const body = req.body;
-          const result = await applyJobCollection.insertOne(body);
-          res.send(result);
-     });
-     app.patch('/apply-job-update', async (res, req) => {
-          const updateApply = req.body;
-          const filter = { id: new ObjectId(res.query.id) }
-          const apply = await applyJobCollection.findOne(filter);
-          const updateDoc = {
-               $set: {
-                    name: updateApply.name ? updateApply.name : apply?.name,
-                    description: updateApply.description ? updateApply.description : apply?.description,
-                    resume: updateApply.resume ? updateApply.resume : apply?.resume,
+     // app.post('apply-job', async (res, req) => {
+     //      const body = req.body;
+     //      const result = await applyJobCollection.insertOne(body);
+     //      res.send(result);
+     // });
+     // app.patch('/apply-job-update', async (res, req) => {
+     //      const updateApply = req.body;
+     //      const filter = { id: new ObjectId(res.query.id) }
+     //      const apply = await applyJobCollection.findOne(filter);
+     //      const updateDoc = {
+     //           $set: {
+     //                name: updateApply.name ? updateApply.name : apply?.name,
+     //                description: updateApply.description ? updateApply.description : apply?.description,
+     //                resume: updateApply.resume ? updateApply.resume : apply?.resume,
 
-               }
-          };
-          const result = await applyJobCollection.updateOne(filter, updateDoc);
-          res.send(result)
-     })
+     //           }
+     //      };
+     //      const result = await applyJobCollection.updateOne(filter, updateDoc);
+     //      res.send(result)
+     // })
 
 
-     // FeedbackCollection   related api  
-     app.post('/feedback', async (res, req) => {
-          const body = req.body;
-          const result = await FeedbackCollection.insertOne(body);
-          res.send(result);
-     });
-     app.get('/feedback', async (res, req) => {
-          const result = await FeedbackCollection.find(body).toArray();
-          res.send(result);
-     })
+     // // FeedbackCollection   related api  
+     // app.post('/feedback', async (res, req) => {
+     //      const body = req.body;
+     //      const result = await FeedbackCollection.insertOne(body);
+     //      res.send(result);
+     // });
+     // app.get('/feedback', async (res, req) => {
+     //      const result = await FeedbackCollection.find(body).toArray();
+     //      res.send(result);
+     // })
 
 
 
      await client.db("admin").command({ ping: 1 });
      console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+
+
 }
 run().catch(console.dir);
 
